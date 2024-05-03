@@ -2,9 +2,7 @@ package pruebas;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import utiles.Util;
 
-import static utiles.Util.*;
 
 
 public class Pruebas {
