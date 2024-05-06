@@ -1,19 +1,25 @@
 package pagebase;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pruebas.Pruebas;
 import utiles.Constantes;
+import utiles.Util;
 import utiles.WebdriverConfig;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
 public class BasePage {
     protected static WebDriver driver = WebdriverConfig.createBrowser();
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constantes.ESPERA));
+    protected static Logger logger = LogManager.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver){
         BasePage.driver = driver;
@@ -57,4 +63,27 @@ public class BasePage {
     public void informar(WebElement element, String texto){
         esperaElemento(element).sendKeys(texto);
     }
+    public static void tomarCaptura(){
+
+
+        try {
+
+            String filePath = System.getProperty("user.dir")+ "/logs/capturas/"+ Util.fechaAMDms()+".png";
+
+            TakesScreenshot captura = ((TakesScreenshot) driver);
+
+            File file = captura.getScreenshotAs(OutputType.FILE);
+
+            File desFile = new File(filePath);
+
+            FileUtils.copyFile(file, desFile);
+        } catch (IOException e) {
+            System.out.println("BasePage/tomarCaptura: Error al capturar pantalla");
+            throw new RuntimeException(e);
+
+        }
+
+
+    }
+
 }

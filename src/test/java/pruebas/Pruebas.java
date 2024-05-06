@@ -14,5 +14,6 @@ public class Pruebas {
         logger.info("3.This is an INFO message.");
         logger.error("5.This is an ERROR message.");
         logger.fatal("2.This is a FATAL message.");
+
     }
 }
