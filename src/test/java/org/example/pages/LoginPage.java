@@ -1,38 +1,49 @@
-package pages;
+package org.example.pages;
 
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
-import pagebase.BasePage;
-import utiles.Constantes;
+import org.example.pagebase.BasePage;
+import org.example.utiles.Constantes;
 
 public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//*[@id='user-name']")
     WebElement user;
-    @FindBy(xpath = "//*[@id='password']") WebElement pass;
-    @FindBy(xpath = "//*[@type='submit']") WebElement btnLogin;
-    public LoginPage(){
+    @FindBy(xpath = "//*[@id='password']")
+    WebElement pass;
+    @FindBy(xpath = "//*[@type='submit']")
+    WebElement btnLogin;
+
+
+    public LoginPage() {
         super(driver);
     }
 
-    public void login(){
+    public void login() {
         marca(user);
         //espera(5);
-        informar(user,Constantes.WEB_USER);
+        informar(user, Constantes.WEB_USER);
         tomarCaptura();
         logger.info("Se ha introducido el usuario");
         //espera(5);
         marca(pass);
-        informar(pass,Constantes.WEB_PASS);
+        informar(pass, Constantes.WEB_PASS);
         logger.info("Se ha introducido la contraseña");
         tomarCaptura();
         //espera(5);
+    }
+    public void pulsarLogin(){
         click(btnLogin);
         logger.info("Se ha introducido la contraseña");
         tomarCaptura();
         //espera(5);
+    }
 
+    public void validarPagina(){
+        espera(2);
+        logger.info(driver.getTitle());
+        Assert.assertEquals(driver.getTitle(),"Swag Labs");
     }
 }

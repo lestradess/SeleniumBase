@@ -1,4 +1,4 @@
-package utiles;
+package org.example.utiles;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
