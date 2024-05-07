@@ -64,23 +64,16 @@ public class BasePage {
         esperaElemento(element).sendKeys(texto);
     }
     public static void tomarCaptura(){
-
-
         try {
 
             String filePath = System.getProperty("user.dir")+ "/logs/capturas/"+ Util.fechaAMDms()+".png";
-
             TakesScreenshot captura = ((TakesScreenshot) driver);
-
             File file = captura.getScreenshotAs(OutputType.FILE);
-
             File desFile = new File(filePath);
-
             FileUtils.copyFile(file, desFile);
         } catch (IOException e) {
-            System.out.println("BasePage/tomarCaptura: Error al capturar pantalla");
+            logger.error("BasePage/tomarCaptura: Error al capturar pantalla");
             throw new RuntimeException(e);
-
         }
 
 
