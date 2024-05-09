@@ -1,4 +1,4 @@
-package org.example.utiles;
+package utiles;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -25,6 +25,7 @@ public class Util {
         int hora = fecha.getHour();
         int minuto = fecha.getMinute();
         int segundo = fecha.getSecond();
-        return anio+"."+mes+"."+dia+"."+hora+"."+minuto+"."+segundo;
+        return anio+"_"+mes+"_"+dia+"_"+hora+"_"+minuto+"_"+segundo;
     }
+
 }

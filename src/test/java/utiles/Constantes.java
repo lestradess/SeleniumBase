@@ -1,4 +1,4 @@
-package org.example.utiles;
+package utiles;
 
 public class Constantes {
     public static final String WEB_URL = Util.readProperty("WEB_URL");

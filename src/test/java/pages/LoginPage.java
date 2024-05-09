@@ -1,11 +1,10 @@
-package org.example.pages;
+package pages;
 
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-import org.example.pagebase.BasePage;
-import org.example.utiles.Constantes;
+import pagebase.BasePage;
+import utiles.Constantes;
 
 public class LoginPage extends BasePage {
 
@@ -18,7 +17,7 @@ public class LoginPage extends BasePage {
 
 
     public LoginPage() {
-        super(driver);
+        super();
     }
 
     public void login() {
@@ -34,16 +33,12 @@ public class LoginPage extends BasePage {
         tomarCaptura();
         //espera(5);
     }
-    public void pulsarLogin(){
+    public void pulsarBtnLogin(){
         click(btnLogin);
         logger.info("Se ha introducido la contraseña");
         tomarCaptura();
         //espera(5);
     }
 
-    public void validarPagina(){
-        espera(2);
-        logger.info(driver.getTitle());
-        Assert.assertEquals(driver.getTitle(),"Swag Labs");
-    }
+
 }

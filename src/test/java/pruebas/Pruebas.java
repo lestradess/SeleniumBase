@@ -1,4 +1,4 @@
-package org.example.pruebas;
+package pruebas;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

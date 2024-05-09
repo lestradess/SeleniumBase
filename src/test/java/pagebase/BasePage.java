@@ -1,20 +1,19 @@
-package org.example.pagebase;
+package pagebase;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.utiles.WebdriverConfig;
+import utiles.WebdriverConfig;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.example.utiles.Constantes;
-import org.example.utiles.Util;
+import utiles.Constantes;
+import utiles.Util;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.Duration;
 
 public class BasePage {
@@ -22,8 +21,8 @@ public class BasePage {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constantes.ESPERA));
     protected static Logger logger = LogManager.getLogger(BasePage.class);
 
-    public BasePage(WebDriver driver) {
-        BasePage.driver = driver;
+    public BasePage() {
+        //BasePage.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -37,15 +36,16 @@ public class BasePage {
 
     public static void cerrarNavegador() {
         if (driver != null) {
+            driver.close();
             driver.quit();
         }
-        System.out.println("Navegar cerrado");
+        logger.info("Navegador cerrado");
     }
 
     public void espera(int segundos) { //!Solo utilizar para pruebas
         int tiempo = segundos * 1000;
         try {
-            System.out.println("Espera de " + segundos + " segundos");
+            logger.trace("Espera de " + segundos + " segundos");
             Thread.sleep(tiempo);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -83,15 +83,23 @@ public class BasePage {
 
             FileUtils.copyFile(file, desFile);
         } catch (IOException e) {
-            System.out.println("BasePage/tomarCaptura: Error al capturar pantalla");
+            logger.error("BasePage/tomarCaptura: Error al capturar pantalla");
             throw new RuntimeException(e);
 
         }
 
     }
 
-    public static InputStream capturaAllure() {
-        return new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+//    public static InputStream capturaAllure() {
+//        return new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+//    }
+public void seleccionar(WebElement element, int index){
+    Select select = new Select(esperaElemento(element));
+    select.selectByIndex(index);
+}
+    public void seleccionar(WebElement element, String texto){
+        Select select = new Select(esperaElemento(element));
+        //select.selectByValue(texto);
+        select.selectByVisibleText(texto);
     }
-
 }
