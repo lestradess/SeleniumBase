@@ -1,8 +1,8 @@
 package pagebase;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import utiles.Logs;
 import utiles.WebdriverConfig;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
@@ -19,7 +19,7 @@ import java.time.Duration;
 public class BasePage {
     protected static WebDriver driver = WebdriverConfig.createBrowser();
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constantes.ESPERA));
-    protected static Logger logger = LogManager.getLogger(BasePage.class);
+    
 
     public BasePage() {
         //BasePage.driver = driver;
@@ -39,13 +39,13 @@ public class BasePage {
             driver.close();
             driver.quit();
         }
-        logger.info("Navegador cerrado");
+        Logs.info("Navegador cerrado");
     }
 
     public void espera(int segundos) { //!Solo utilizar para pruebas
         int tiempo = segundos * 1000;
         try {
-            logger.trace("Espera de " + segundos + " segundos");
+            Logs.trace("Espera de " + segundos + " segundos");
             Thread.sleep(tiempo);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -83,7 +83,7 @@ public class BasePage {
 
             FileUtils.copyFile(file, desFile);
         } catch (IOException e) {
-            logger.error("BasePage/tomarCaptura: Error al capturar pantalla");
+            Logs.error("BasePage/tomarCaptura: Error al capturar pantalla");
             throw new RuntimeException(e);
 
         }

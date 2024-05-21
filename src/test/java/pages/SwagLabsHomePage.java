@@ -4,6 +4,7 @@ import pagebase.BasePage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+import utiles.Logs;
 
 public class SwagLabsHomePage extends BasePage {
 
@@ -13,18 +14,18 @@ public class SwagLabsHomePage extends BasePage {
     public SwagLabsHomePage() {super();}
     public void validarPagina(){
         espera(2);
-        logger.info(driver.getTitle());
+        Logs.info(driver.getTitle());
         Assert.assertEquals(driver.getTitle(),"Swag Labs");
     }
 
     public void ordenarPrecio(){
         espera(2);
-        logger.info("Selecciona indice 2");
+        Logs.info("Selecciona indice 2");
         seleccionar(selectProducts,1);
         espera(2);
-        logger.info("selecciona Price (low to high)");
+        Logs.info("selecciona Price (low to high)");
         seleccionar(selectProducts,"Price (low to high)");
         espera(5);
-        logger.info("ordena precio ok");
+        Logs.info("ordena precio ok");
     }
 }

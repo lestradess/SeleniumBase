@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
-public class SwagLabsRunnerTest {
+public class BaseRunnerTest {
 
     private static final LoginPage loginPage = new LoginPage();
     private static final SwagLabsHomePage swagLabsHomePage = new SwagLabsHomePage();
