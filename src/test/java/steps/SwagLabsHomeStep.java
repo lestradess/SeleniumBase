@@ -16,7 +16,7 @@ public class SwagLabsHomeStep {
 
     @Given("Navega a la weg de SwagLabs")
     public void navegaALaWegDeSwagLabs() {
-        BasePage.navegarUrl("");
+        BasePage.navegarUrl();
         //Allure.addAttachment("homepage", BasePage.capturaAllure());
     }
 
