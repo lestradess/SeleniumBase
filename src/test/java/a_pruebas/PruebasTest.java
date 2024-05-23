@@ -8,7 +8,7 @@ import utiles.Util;
 public class PruebasTest {
 
     private String testname;
-    private String time = Util.fechaAMDms();
+    private final String time = Util.fechaAMDms();
     @AfterClass
     public void afterClass(){
 
