@@ -1,35 +1,56 @@
 package runners;
 
 
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import pagebase.BasePage;
 import pages.LoginPage;
 import pages.SwagLabsHomePage;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import utiles.Contexto;
+import utiles.Util;
 
 
 public class BaseRunnerTest {
 
     private static final LoginPage loginPage = new LoginPage();
     private static final SwagLabsHomePage swagLabsHomePage = new SwagLabsHomePage();
+    private static String testname;
+    private static final Contexto contexto = new Contexto();
+
+    @BeforeClass
+    public void afterClass() {
+        contexto.fecha = Util.fechaAMDms();
+        contexto.testSuite = "TestSuit01"; //Hay que poner como queremos llamar al testSuit
+    }
 
     @BeforeMethod
-    public static void setupDriver(){
+    public static void setupDriver(ITestResult resul) {
+        testname = resul.getMethod().getMethodName(); // Se usa para consultar el nombre del metodo
+        contexto.test = "Before";
         BasePage.navegarUrl();
-        loginPage.login();
-        loginPage.pulsarBtnLogin();
+        loginPage.login(contexto);
+        loginPage.pulsarBtnLogin(contexto);
     }
+
     @AfterMethod
-    public static void closeDriver(){
-    BasePage.cerrarNavegador();
+    public static void closeDriver() {
+        //BasePage.cerrarNavegador();
     }
-    @Test
+
+    @Test(priority = 1, testName = "Validar Home")
     public static void validarHome() {
-       swagLabsHomePage.validarPagina();
+        contexto.test = testname;
+        swagLabsHomePage.validarPagina(contexto);
     }
-    @Test
-    public static void ordenarProductos(){
-        swagLabsHomePage.ordenarPrecio();
+
+    @Test(priority = 2, testName = "Ordenar productos")
+    public static void ordenarProductos() {
+        contexto.test = testname;
+        swagLabsHomePage.ordenarPrecio(contexto);
+    }
+
+    @AfterClass
+    public static void cleanDriver() {
+        BasePage.tearDown();
     }
 }

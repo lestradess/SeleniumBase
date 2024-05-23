@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pagebase.BasePage;
 import utiles.Constantes;
+import utiles.Contexto;
 import utiles.Logs;
 
 public class LoginPage extends BasePage {
@@ -18,26 +19,27 @@ public class LoginPage extends BasePage {
 
 
     public LoginPage() {
-        super();
+        super(driver);
     }
 
-    public void login() {
+    public void login(Contexto contexto) {
         marca(user);
         //espera(5);
         informar(user, Constantes.WEB_USER);
-        tomarCaptura();
+        tomarCaptura(contexto);
         Logs.info("Se ha introducido el usuario");
         //espera(5);
         marca(pass);
         informar(pass, Constantes.WEB_PASS);
         Logs.info("Se ha introducido la contraseña");
-        tomarCaptura();
+        tomarCaptura(contexto);
         //espera(5);
     }
-    public void pulsarBtnLogin(){
+    public void pulsarBtnLogin(Contexto contexto){
+        tomarCaptura(contexto);
         click(btnLogin);
-        Logs.info("Se ha introducido la contraseña");
-        tomarCaptura();
+        Logs.info("Se ha pulsado el botón Login");
+        tomarCaptura(contexto);
         //espera(5);
     }
 

@@ -2,32 +2,41 @@ package pagebase;
 
 import org.apache.commons.io.FileUtils;
 
-import utiles.Logs;
-import utiles.WebdriverConfig;
+import utiles.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utiles.Constantes;
-import utiles.Util;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 
-public class BasePage {
-    protected static WebDriver driver = WebdriverConfig.createBrowser();
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constantes.ESPERA));
-    
+public class BasePage extends Logs {
 
-    public BasePage() {
-        //BasePage.driver = driver;
+    protected static WebDriver driver;
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constantes.ESPERA));
+
+    static {
+        driver = WebdriverConfig.createBrowser();
+    }
+
+    public BasePage(WebDriver driver) {
+        BasePage.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     public static void navegarUrl() {
-        driver.get(Constantes.WEB_URL);
+        trace("Abriendo navegador");
+
+        if (driver != null) {
+            driver.get(Constantes.WEB_URL);
+            trace("Navegador abierto");
+        } else {
+            error("no hay instancia del driver");
+        }
+
     }
 
     public static void navegarUrl(String url) {
@@ -35,17 +44,21 @@ public class BasePage {
     }
 
     public static void cerrarNavegador() {
+        driver.close();
+        trace("Navegador cerrado");
+    }
+
+    public static void tearDown() {
         if (driver != null) {
-            driver.close();
             driver.quit();
+            trace("Instancia del driver cerrada");
         }
-        Logs.info("Navegador cerrado");
     }
 
     public void espera(int segundos) { //!Solo utilizar para pruebas
         int tiempo = segundos * 1000;
         try {
-            Logs.trace("Espera de " + segundos + " segundos");
+            trace("Espera de " + segundos + " segundos");
             Thread.sleep(tiempo);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -69,11 +82,27 @@ public class BasePage {
         esperaElemento(element).sendKeys(texto);
     }
 
-    public static void tomarCaptura() {
+    public static void tomarCaptura(Contexto contexto) {
+        String fecha;
+        String testSuite;
+        String test;
+        String directorio;
+        String filePath;
 
         try {
-
-            String filePath = System.getProperty("user.dir") + "/logs/capturas/" + Util.fechaAMDms() + ".png";
+            if (contexto.testSuite.equalsIgnoreCase("reportes")) {
+                directorio = contexto.testSuite;
+                fecha = "cucumber-html-reports";
+                testSuite = "images";
+                test = contexto.test;
+                filePath = System.getProperty("user.dir") + "/" + directorio + "/" + fecha + "/" + testSuite + "/"+Util.fechaAMDms() + test + ".png";
+            } else {
+                fecha = contexto.fecha;
+                testSuite = contexto.testSuite;
+                test = contexto.test;
+                directorio = "logs";
+                filePath = System.getProperty("user.dir") + "/" + directorio + "/" + fecha + "/" + testSuite + "/" + test + "_" + Util.fechaAMDms() + ".png";
+            }
 
             TakesScreenshot captura = ((TakesScreenshot) driver);
 
@@ -83,21 +112,22 @@ public class BasePage {
 
             FileUtils.copyFile(file, desFile);
         } catch (IOException e) {
-            Logs.error("BasePage/tomarCaptura: Error al capturar pantalla");
+            error("BasePage/tomarCaptura: Error al capturar pantalla");
             throw new RuntimeException(e);
 
         }
 
     }
 
-//    public static InputStream capturaAllure() {
+    //    public static InputStream capturaAllure() {
 //        return new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
 //    }
-public void seleccionar(WebElement element, int index){
-    Select select = new Select(esperaElemento(element));
-    select.selectByIndex(index);
-}
-    public void seleccionar(WebElement element, String texto){
+    public void seleccionar(WebElement element, int index) {
+        Select select = new Select(esperaElemento(element));
+        select.selectByIndex(index);
+    }
+
+    public void seleccionar(WebElement element, String texto) {
         Select select = new Select(esperaElemento(element));
         //select.selectByValue(texto);
         select.selectByVisibleText(texto);

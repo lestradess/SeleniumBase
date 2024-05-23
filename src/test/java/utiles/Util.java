@@ -24,7 +24,8 @@ public class Util {
         int hora = fecha.getHour();
         int minuto = fecha.getMinute();
         int segundo = fecha.getSecond();
-        return dia+"/"+mes+"/"+anio+" "+hora+":"+minuto+":"+segundo;
+        return dia+"_"+mes+"_"+anio+"_"+hora+"_"+minuto+"_"+segundo;
     }
+
 
 }
